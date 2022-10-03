@@ -17,6 +17,7 @@
         <script src="../../_static/underscore.js"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -66,7 +67,7 @@
 <li class="toctree-l3"><a class="reference internal" href="extrude_vector.html">Extrude Curve Along Vector</a></li>
 <li class="toctree-l3"><a class="reference internal" href="extrude_point.html">Extrude to Point</a></li>
 <li class="toctree-l3"><a class="reference internal" href="extrude_curve.html">Extrude Curve Along Curve</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pipe.html">Pipe (Curve)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pipe.html">Pipe Surface Along Curve</a></li>
 <li class="toctree-l3"><a class="reference internal" href="coons_patch.html">Surface from Four Curves</a></li>
 <li class="toctree-l3"><a class="reference internal" href="blend_surface.html">Blend Surfaces</a></li>
 <li class="toctree-l3"><a class="reference internal" href="minimal_surface.html">Minimal Surface</a></li>
@@ -91,6 +92,8 @@
 <li class="toctree-l3"><a class="reference internal" href="insert_knot.html">Insert Knot (NURBS Surface)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="remove_knot.html">Remove Knot (NURBS Surface)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="remove_excessive_knots.html">Remove Excessive Knots (NURBS Surface)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="elevate_degree.html">Elevate Degree (NURBS Surface)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reduce_degree.html">Reduce Degree (NURBS Surface)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="intersect_curve_surface.html">Intersect Curve with Surface</a></li>
 <li class="toctree-l3"><a class="reference internal" href="nearest_point.html">Nearest Point on Surface</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ortho_project.html">Orthogonal Project on Surface</a></li>
@@ -175,7 +178,7 @@
 <h1>Tessellate &amp; Trim Surface<a class="headerlink" href="#tessellate-trim-surface" title="Permalink to this heading">¶</a></h1>
 <section id="functionality">
 <h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this heading">¶</a></h2>
-<p>This node “visualizes” the Surface object (turns it into a mesh), by drawing a carthesian (rectangular) grid on it and then cutting (trimming) that grid with the specified Curve object.</p>
+<p>This node “visualizes” the Surface object (turns it into a mesh), by drawing a cartesian (rectangular) grid on it and then cutting (trimming) that grid with the specified Curve object.</p>
 <p>The provided trimming curve is supposed to be planar (flat), and be defined in the surface’s U/V coordinates frame.</p>
 <p>Note that this node is supported since Blender 2.81 only. It will not work in Blender 2.80.</p>
 </section>

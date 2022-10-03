@@ -73,7 +73,7 @@ and in upper case.
         Tooltip: It adds an attribute to a mesh
         """
         bl_idname = 'SvSetMeshAttributeNode'
-        bl_label = 'Set mesh attribute'
+        bl_label = 'Set Mesh Attribute'
         bl_icon = 'SORTALPHA'
 
         def draw_label(self):
@@ -157,6 +157,11 @@ memory. There are `known cases`_ when Blender crashes during rendering when UI
 expose dynamic enums which do not store their content.
 
 .. _known cases: https://github.com/nortikin/sverchok/issues/4316
+
+.. tip::
+   There is now ``utils.handle_blender_data.keep_enum_reference`` decorator
+   which can be used with dynamic enums. The decorator assign enum items to a
+   Python variable what solves the problem above.
 
 Enum items can have custom icons. Custom icons should be stored in the
 ``sverchok.ui.icons`` folder. To use custom icons the ``ui.sv_icons.custom_icon``
@@ -326,7 +331,7 @@ idea. Now it's only used in Dictionary output node. The problem is that this can
 easily lead to losses of user connections what breaks node setups. For example
 in Geometry Nodes project there was a decision that sockets should be
 independent to data layer. So to generate such nodes is not recommended now.
-If there is now way but to have this functionality possible solution could be
+If there is no way but to have this functionality possible solution could be
 to add a button to a node which would recreate sockets explicitly.
 
 .. code-block:: python
@@ -353,6 +358,12 @@ label
 
 use_prop
   Expects boolean value. If true the socket will display its default property.
+
+.. image:: https://user-images.githubusercontent.com/28003269/180741280-683987fa-e10c-47e1-91e0-807311697fea.png
+   :align: right
+
+show_property_type (SvStringsSocket)
+  It adds icon to switch default type of the string socket
 
 custom_draw
   Expects name of a method of the node of the socket. If defined the method
@@ -544,7 +555,7 @@ There are helping functions / generators to perform data matching in
 .. _experimental_vectorization:
 
 .. note::
-   There are two experimental approaches to automatize data matching. One can
+   There are two experimental approaches to automate data matching. One can
    be found in ``utils.nodes_mixins.recursive_nodes`` and another in
    ``utils.vectorize`` modules. Both of them can handle not only list of
    objects but and nested to each other lists of objects with arbitrary
@@ -564,7 +575,7 @@ There are helping functions / generators to perform data matching in
 .. note::
    In future vectorization should leve the nodes area and arrive to execution
    system. In this case nodes only have to add information to sockets to give to
-   execution system to now how to match data.
+   execution system to know how to match data.
 
 Data structure
 ^^^^^^^^^^^^^^
@@ -669,6 +680,12 @@ separate file which can be visualized with another tools.
 Printing / Logging
 ^^^^^^^^^^^^^^^^^^
 
+.. figure:: https://user-images.githubusercontent.com/28003269/180702647-c25d8b58-ed2d-4a7b-98ce-d6aaa594d475.png
+   :align: right
+   :width: 400px
+
+   Logging level can be set in the add-on settings.
+
 Printing and profiling are very expensive operations. Also console can fastly
 turn into unreadable mess. So it's better to avoid using them inside node code.
 During debugging it's valid to use print function but it should removed in the
@@ -677,6 +694,12 @@ end.
 Usually logging can be don in some operators in this case you can use loggers
 from ``utils.logging`` module or by using ``node.debug``, ``node.info`` and
 other aliases.
+
+If a node rises an error it will appear in console in next format: ``data and
+time [logging level] module name:line number : error name``
+
+Traceback is switch off for all logging levels except debug one. If you need it
+make sure that you have appropriate logging level in the settings.
 
 Node Registration
 -----------------
@@ -723,7 +746,33 @@ When the add-on is disabled or reloaded its classes should be unregister. To
 unregister a node is possible in function with name ``unregister`` in the same
 module with Node class.
 
-Also with node should go documentation file in ``docs.nodes`` folder.
+
+Documentation
+-------------
+
+When new node is added it's strongly recommended to add its documentation.
+Without it, in most cases, users will hardly able to use the node and also
+it can be difficult to distinguish a bug because the desired behaviour was not
+proclaimed.
+
+To add documentation to a node two things should be done:
+
+- file with documentation (name_of_the_node.rst) should be added to the
+  ``docs.nodes.node_category`` folder
+- Name of the file should be add to list inside
+  ``docs.nodes.node_category.node_category_index.rst`` file
+
+For generating documentation `Sphinx library`_ is used. Also
+`Read the Docs`_ Sphinx theme is used. So both libraries should be available
+if you want to build documentation locally. There is ``docs/make.bat`` file
+which builds the documentation into ``docs/_build`` (excluded from git) folder.
+
+.. _Sphinx library: https://www.sphinx-doc.org/en/master/
+.. _Read the Docs: https://github.com/readthedocs/sphinx_rtd_theme
+
+There is action which will automatically build and publish documentation on the
+next address - http://nortikin.github.io/sverchok/docs/main.html, whenever
+changes will be introduced in master on GitHub.
 
 
 Animation
@@ -837,7 +886,7 @@ Improve existing node
 ^^^^^^^^^^^^^^^^^^^^^
 
 First is when you add extra functionality to some node. It's possible by adding
-extra buttons, sockets, modes. Whe you add something like this you should ensure
+extra buttons, sockets, modes. When you add something like this you should ensure
 that default behaviour will be unchanged.
 
 New socket, in most cases, can be placed anywhere among existing ones but it
@@ -872,15 +921,19 @@ applied to changes which were made in not released version of Sverchok. In this
 case changes can be done with breaking backward compatibility.
 
 Creating new version should be done togather with keeping previous one. In most
-cases it's enough **to move** module of current node into old_nodes folder. It
+cases it's enough **to copy** module of current node into old_nodes folder. It
 should be done more carefully if in the module together with the node something
 else is registered.
 
-New version of the node should be created **in new file** in the same place and
-with the same name as version of previous node. Class of a new version should
-get ``MKn`` suffix where *n* is index of new version. The same should be done to
+New version of the node should be created **in the same module** of initial
+node by adding suffix to node class. Convention of the suffix is
+``MKn`` where *n* is index of new version. The same should be done to
 ``bl_idname`` attribute of the class. New version of the node can implement
 anything what can be implemented in new node.
+
+.. note::
+   By changing class name and its ``bl_idname`` attribute, don't forget to fix
+   these names in the registration functions and in the ``index.md`` file.
 
 When new version is introduced it's convenient to add replacement operator to
 the old version of the node which automatically replace old node with new one

@@ -17,6 +17,7 @@
         <script src="../_static/underscore.js"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -181,6 +182,16 @@ clamped uniform knot vector.</p></li>
 in which distance between neighbour knots is different in different places.
 For example, <code class="docutils literal notranslate"><span class="pre">0</span> <span class="pre">0</span> <span class="pre">0.5</span> <span class="pre">0.6</span> <span class="pre">1.5</span> <span class="pre">1.7</span> <span class="pre">1.9</span> <span class="pre">2</span> <span class="pre">2</span> <span class="pre">2</span></code> is a non-uniform (and clamped)
 knot vector.</p></li>
+<li><p><strong>Node values</strong>, <strong>Node points</strong>. Also known as Greville abscissaes and
+Greville points, average knot values, or simply edit points. The values of
+NURBS curve’s T parameter, defined as: <code class="docutils literal notranslate"><span class="pre">t[i]</span> <span class="pre">=</span> <span class="pre">sum(u[i+j]</span> <span class="pre">for</span> <span class="pre">j</span> <span class="pre">from</span> <span class="pre">1</span> <span class="pre">to</span> <span class="pre">p)</span>
+<span class="pre">/</span> <span class="pre">p</span></code>, where <code class="docutils literal notranslate"><span class="pre">u</span></code> is curve’s knotvector, and <code class="docutils literal notranslate"><span class="pre">p</span></code> is curve’s degree.  NURBS
+curve <em>node points</em> (or Greville points) are points at the curve at parameter
+values equal to node values.  The number of curve’s nodes is equal to the
+number of curve’s control points.  Node points of the curve are positioned on
+the curve near corresponding control points. So in many NURBS algorithms,
+node points are used to define the shape of NURBS curve, instead of control
+points.</p></li>
 </ul>
 </section>
 <section id="workflow">
@@ -235,7 +246,7 @@ vectors” and “uniform knot vectors”.</p></li>
 </ul>
 <p>So, Sverchok has limited features in interacting with Blender’s native NURBS objects:</p>
 <ul class="simple">
-<li><p><strong>NURBS In</strong> node can bring arbitrary Blender’s NURBS curves or surfaces
+<li><p><strong>NURBS Input</strong> node can bring arbitrary Blender’s NURBS curves or surfaces
 from scene to Sverchok space;</p></li>
 <li><p><strong>NURBS Curve Out</strong> and <strong>NURBS Surface Out</strong> nodes allow to generate
 Blender’s NURBS objects in scene, but without possibility to specify
